@@ -1,8 +1,14 @@
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isFalse
 import org.junit.jupiter.api.Test
 
 class BowlingGameTest{
+
+    @Test
+    fun emptyGamesShouldBeInvalid() {
+        assertThat(BowlingGame("").isValid()).isFalse()
+    }
 
     @Test
     fun incompleteGameNumbersOnly(){

@@ -12,6 +12,11 @@ class BowlingGameTest{
     }
 
     @Test
+    fun gameWithFiveFramesShouldNotBeValid() {
+        assertThat(BowlingGame("11,22,33,44,55").isValid()).isFalse()
+    }
+
+    @Test
     fun gameWithTenFramesShouldBeValid() {
         assertThat(BowlingGame("11,22,33,44,55,66,77,88,99,10").isValid()).isTrue()
     }

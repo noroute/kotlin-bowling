@@ -6,7 +6,7 @@ data class BowlingGame(val rolls: String) {
         return rolls.split(",").size == FRAMES_PER_GAME
     }
 
-    fun score() : Int{
-        return rolls.map(Character::getNumericValue).sum()
+    fun score() : Int {
+        return if (isValid()) rolls.map(Character::getNumericValue).sum() else 0
     }
 }

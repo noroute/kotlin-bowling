@@ -7,18 +7,18 @@ import org.junit.jupiter.api.Test
 class BowlingGameTest {
 
     @Test
-    fun emptyGamesShouldBeInvalid() {
-        assertThat(BowlingGame("").isValid()).isFalse()
+    fun emptyGamesShouldNotBeComplete() {
+        assertThat(BowlingGame("").isComplete()).isFalse()
     }
 
     @Test
-    fun gameWithFiveFramesShouldNotBeValid() {
-        assertThat(BowlingGame("11,22,33,44,55").isValid()).isFalse()
+    fun gameWithFiveFramesShouldNotBeComplete() {
+        assertThat(BowlingGame("11,22,33,44,55").isComplete()).isFalse()
     }
 
     @Test
-    fun gameWithTenFramesShouldBeValid() {
-        assertThat(BowlingGame("11,22,33,44,55,66,77,88,99,10").isValid()).isTrue()
+    fun gameWithTenFramesShouldBeComplete() {
+        assertThat(BowlingGame("11,22,33,44,55,66,77,88,99,10").isComplete()).isTrue()
     }
 
     @Test

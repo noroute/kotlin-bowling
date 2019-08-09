@@ -7,6 +7,6 @@ data class BowlingGame(val rolls: String) {
     }
 
     fun score() : Int {
-        return if (isValid()) rolls.map(Character::getNumericValue).sum() else 0
+        return if (isValid()) rolls.filter { c -> c != ',' }.map(Character::getNumericValue).sum() else 0
     }
 }

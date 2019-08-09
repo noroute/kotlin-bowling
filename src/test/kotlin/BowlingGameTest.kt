@@ -4,7 +4,7 @@ import assertk.assertions.isFalse
 import assertk.assertions.isTrue
 import org.junit.jupiter.api.Test
 
-class BowlingGameTest{
+class BowlingGameTest {
 
     @Test
     fun emptyGamesShouldBeInvalid() {
@@ -22,8 +22,13 @@ class BowlingGameTest{
     }
 
     @Test
-    fun incompleteGamesShouldBeWorthZeroPoints(){
+    fun incompleteGamesShouldBeWorthZeroPoints() {
         assertThat(BowlingGame("1").score()).isEqualTo(0)
         assertThat(BowlingGame("12,3").score()).isEqualTo(0)
+    }
+
+    @Test
+    fun completeGamesShouldBeScored() {
+        assertThat(BowlingGame("10,00,00,00,00,00,00,00,00,00").score()).isEqualTo(1)
     }
 }

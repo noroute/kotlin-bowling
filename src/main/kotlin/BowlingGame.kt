@@ -1,12 +1,19 @@
-data class BowlingGame(val rolls: String) {
+import java.lang.IllegalStateException
 
-    val FRAMES_PER_GAME = 10
+data class BowlingGame(private val frameString: String) {
 
-    fun isComplete() : Boolean {
-        return rolls.split(",").size == FRAMES_PER_GAME
+    private val FRAMES_PER_GAME = 10
+
+    private val rolls : String
+    private val isComplete : Boolean
+
+    init {
+        isComplete = frameString.split(",").size == FRAMES_PER_GAME
+        rolls = frameString.filter { c -> c != ','}
     }
 
     fun score() : Int {
-        return if (isComplete()) rolls.filter { c -> c != ',' }.map(Character::getNumericValue).sum() else 0
+        return if (isComplete) rolls.map(Character::getNumericValue).sum() else
+            throw IllegalStateException("Incomplete game")
     }
 }

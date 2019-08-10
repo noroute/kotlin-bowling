@@ -35,23 +35,35 @@ data class BowlingGame(private val frameString: String) {
     }
 
     private fun bonusForIndex(index: Int): Int {
+        return bonusFromPreviousRoll(index) + bonusFromTwoRollsBefore(index)
+    }
+
+    private fun bonusFromPreviousRoll(index: Int): Int {
         if (index == 0) {
             return 0
         }
-        if (previousRoll(index) == SPARE || previousRoll(index) == STRIKE) {
+        if (previousRoll(index) in listOf(STRIKE, SPARE)) {
             return valueForIndex(index, rolls[index])
-        } else if (twoRollsPrevious(index) == STRIKE && index > 1) {
-            return valueForIndex(index, rolls[index])
-        } else {
+        }
+        return 0
+    }
+
+    private fun bonusFromTwoRollsBefore(index: Int): Int {
+        if (index < 2) {
             return 0
         }
+
+        if (twoRollsBefore(index) == STRIKE) {
+            return valueForIndex(index, rolls[index])
+        }
+        return 0
     }
 
     private fun previousRoll(currentIndex: Int): Char {
         return rolls[max(0, currentIndex - 1)]
     }
 
-    private fun twoRollsPrevious(currentIndex: Int): Char {
+    private fun twoRollsBefore(currentIndex: Int): Char {
         return rolls[max(0, currentIndex - 2)]
     }
 }

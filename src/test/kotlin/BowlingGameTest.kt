@@ -45,4 +45,9 @@ class BowlingGameTest {
     fun exampleGameShouldBeScoredCorrectly() {
         assertThat(BowlingGame("14,45,6/,5/,X,01,7/,6/,X,2/6").score()).isEqualTo(139)
     }
+
+    @Test
+    fun maxGamesShouldBeScoredCorrectly() {
+        assertThat(BowlingGame("X,X,X,X,X,X,X,X,X,XX").score()).isEqualTo(300)
+    }
 }

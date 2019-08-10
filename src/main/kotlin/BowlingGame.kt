@@ -1,5 +1,3 @@
-import kotlin.math.max
-
 data class BowlingGame(private val frameString: String) {
 
     private val FRAMES_PER_GAME = 10
@@ -14,14 +12,14 @@ data class BowlingGame(private val frameString: String) {
         rolls = frameString.filter { c -> c != ',' }
     }
 
-    fun score(): Int {
-        return if (isComplete) rolls.mapIndexed { i, _ -> scoreForRoll(i) }.sum() else
+    fun score() =
+        if (isComplete)
+            rolls.mapIndexed { i, _ -> scoreForRoll(i) }.sum()
+        else
             throw IllegalStateException("Incomplete game")
-    }
 
-    private fun scoreForRoll(index: Int): Int {
-        return valueForRoll(index) + bonusForRoll(index)
-    }
+    private fun scoreForRoll(index: Int) =
+        valueForRoll(index) + bonusForRoll(index)
 
     private fun valueForRoll(index: Int): Int =
         when (rolls[index]) {
@@ -31,36 +29,18 @@ data class BowlingGame(private val frameString: String) {
             else -> throw java.lang.IllegalStateException("Illegal roll found")
         }
 
-    private fun bonusForRoll(index: Int): Int {
-        return bonusFromPreviousRoll(index) + bonusFromTwoRollsBefore(index)
-    }
+    private fun bonusForRoll(index: Int) =
+        bonusFromPreviousRoll(index) + bonusFromTwoRollsBefore(index)
 
-    private fun bonusFromPreviousRoll(index: Int): Int {
-        if (index == 0) {
-            return 0
-        }
-        if (previousRoll(index) in listOf(STRIKE, SPARE)) {
-            return valueForRoll(index)
-        }
-        return 0
-    }
+    private fun bonusFromPreviousRoll(index: Int) =
+        if (rolls.previous(index) in listOf(STRIKE, SPARE)) valueForRoll(index) else 0
 
-    private fun bonusFromTwoRollsBefore(index: Int): Int {
-        if (index < 2) {
-            return 0
-        }
+    private fun bonusFromTwoRollsBefore(index: Int) =
+        if (rolls.twoBefore(index) == STRIKE) valueForRoll(index) else 0
 
-        if (twoRollsBefore(index) == STRIKE) {
-            return valueForRoll(index)
-        }
-        return 0
-    }
+    private fun String.previous(currentIndex: Int) =
+        if (currentIndex > 0) this[currentIndex - 1] else '0'
 
-    private fun previousRoll(currentIndex: Int): Char {
-        return rolls[max(0, currentIndex - 1)]
-    }
-
-    private fun twoRollsBefore(currentIndex: Int): Char {
-        return rolls[max(0, currentIndex - 2)]
-    }
+    private fun String.twoBefore(currentIndex: Int) =
+        if (currentIndex > 1) this[currentIndex - 2] else '0'
 }

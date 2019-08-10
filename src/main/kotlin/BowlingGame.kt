@@ -20,9 +20,7 @@ data class BowlingGame(private val frameString: String) {
     }
 
     private fun scoreForIndex(index: Int, char: Char): Int {
-        val value = valueForIndex(index, char) + bonusForIndex(index)
-        println("Value for $index:$char = $value")
-        return value
+        return valueForIndex(index, char) + bonusForIndex(index)
     }
 
     private fun valueForIndex(index: Int, char: Char): Int {

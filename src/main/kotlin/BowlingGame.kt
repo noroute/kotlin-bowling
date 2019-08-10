@@ -15,24 +15,23 @@ data class BowlingGame(private val frameString: String) {
     }
 
     fun score(): Int {
-        return if (isComplete) rolls.mapIndexed(::scoreForIndex).sum() else
+        return if (isComplete) rolls.mapIndexed { i, _ -> scoreForRoll(i) }.sum() else
             throw IllegalStateException("Incomplete game")
     }
 
-    private fun scoreForIndex(index: Int, char: Char): Int {
-        return valueForIndex(index, char) + bonusForIndex(index)
+    private fun scoreForRoll(index: Int): Int {
+        return valueForRoll(index) + bonusForRoll(index)
     }
 
-    private fun valueForIndex(index: Int, char: Char): Int {
-        when {
-            char.isDigit() -> return Character.getNumericValue(char)
-            char == SPARE -> return 10 - valueForIndex(index - 1, rolls[index - 1])
-            char == STRIKE -> return 10
+    private fun valueForRoll(index: Int): Int =
+        when (rolls[index]) {
+            in '0'..'9' -> Character.getNumericValue(rolls[index])
+            SPARE -> 10 - valueForRoll(index - 1)
+            STRIKE -> 10
+            else -> throw java.lang.IllegalStateException("Illegal roll found")
         }
-        throw java.lang.IllegalStateException("Illegal roll found")
-    }
 
-    private fun bonusForIndex(index: Int): Int {
+    private fun bonusForRoll(index: Int): Int {
         return bonusFromPreviousRoll(index) + bonusFromTwoRollsBefore(index)
     }
 
@@ -41,7 +40,7 @@ data class BowlingGame(private val frameString: String) {
             return 0
         }
         if (previousRoll(index) in listOf(STRIKE, SPARE)) {
-            return valueForIndex(index, rolls[index])
+            return valueForRoll(index)
         }
         return 0
     }
@@ -52,7 +51,7 @@ data class BowlingGame(private val frameString: String) {
         }
 
         if (twoRollsBefore(index) == STRIKE) {
-            return valueForIndex(index, rolls[index])
+            return valueForRoll(index)
         }
         return 0
     }

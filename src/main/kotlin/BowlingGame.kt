@@ -23,11 +23,15 @@ data class BowlingGame(private val frameString: String) {
 
     private fun valueForRoll(index: Int): Int =
         when (rolls[index]) {
-            in '0'..'9' -> Character.getNumericValue(rolls[index])
-            SPARE -> 10 - valueForRoll(index - 1)
+            in '0'..'9' -> pinsDown(index)
+            SPARE -> pinsLeftFromPreviousSpare(index)
             STRIKE -> 10
             else -> throw java.lang.IllegalStateException("Illegal roll found")
         }
+
+    private fun pinsLeftFromPreviousSpare(index: Int) = 10 - valueForRoll(index - 1)
+
+    private fun pinsDown(index: Int) = Character.getNumericValue(rolls[index])
 
     private fun bonusForRoll(index: Int) =
         bonusFromPreviousRoll(index) + bonusFromTwoRollsBefore(index)

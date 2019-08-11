@@ -1,5 +1,7 @@
 # Bowling for Kotlin
 
+[![Build Status](https://travis-ci.org/noroute/kotlin-bowling.svg?branch=master)](https://travis-ci.org/noroute/kotlin-bowling)
+
 This is my learning exercise into Kotlin. This might not be idiomatic
 (or even good or correct) Kotlin code.
 

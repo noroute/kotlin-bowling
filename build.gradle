@@ -16,7 +16,7 @@ apply plugin: 'application'
 mainClassName = "BowlingRunner"
 
 ext {
-    junit_version = "5.3.1"
+    junit_version = "5.7.1"
     assertk_version = "0.19"
 }
 
